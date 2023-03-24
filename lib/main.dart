@@ -7,11 +7,12 @@ import 'package:maps_app/screens/loading_screen.dart';
 import 'package:maps_app/screens/map_screen.dart';
 
 void main() {
-  runApp(MultiBlocProvider(
-    providers: [
+  runApp(
+    MultiBlocProvider(
+      providers: [
       BlocProvider(create: (context) => GpsBloc()),
       BlocProvider(create: (context) => LocationBloc()),
-      BlocProvider(create: (context) => MapBloc()),
+      BlocProvider(create: (context) => MapBloc(locationBloc: BlocProvider.of<LocationBloc>(context))),
     ],
     child: const MapsApp(),
   ));
