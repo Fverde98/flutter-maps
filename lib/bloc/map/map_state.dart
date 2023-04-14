@@ -4,30 +4,30 @@ part of 'map_bloc.dart';
   final bool isMapInitialized;
   final bool isFollowingUser;
   final bool ShowMyRoute;
-  final Map<String , Polyline> polyline;
+  final Map<String , Polyline> polylines;
 
   const MapState({
     this.ShowMyRoute= true, 
     this.isMapInitialized = false, 
     this.isFollowingUser= true,
-    Map<String , Polyline>? polyline
- }):polyline = polyline ?? const {};
+    Map<String , Polyline>? polylines
+ }):polylines = polylines ?? const {};
   
    MapState copyWith({
     bool? isMapInitialized,
     bool? isFollowingUser,
     bool? ShowMyRoute,
-    Map<String , Polyline>? polyline
+    Map<String , Polyline>? polylines
    })=> MapState(
     isMapInitialized: isMapInitialized ?? this.isMapInitialized,
     isFollowingUser: isFollowingUser ?? this.isFollowingUser,
     ShowMyRoute: ShowMyRoute ?? this.ShowMyRoute,
-    polyline: polyline ?? this.polyline
+    polylines: polylines ?? this.polylines
    );
 
 
   @override
-  List<Object> get props => [isMapInitialized,isFollowingUser,polyline,ShowMyRoute];
+  List<Object> get props => [isMapInitialized,isFollowingUser,polylines,ShowMyRoute];
 }
 
 

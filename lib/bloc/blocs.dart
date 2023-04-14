@@ -1,3 +1,5 @@
+export 'package:maps_app/bloc/search/search_bloc.dart';
+
 export 'package:maps_app/bloc/map/map_bloc.dart';
 
 export 'package:maps_app/bloc/location/location_bloc.dart';

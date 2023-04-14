@@ -6,6 +6,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maps_app/bloc/blocs.dart';
+import 'package:maps_app/models/models.dart';
 import 'package:maps_app/themes/themes.dart';
 
 part 'map_event.dart';
@@ -14,6 +15,7 @@ part 'map_state.dart';
 class MapBloc extends Bloc<MapEvent, MapState> {
   final LocationBloc locationBloc;
   GoogleMapController? _mapController;
+  LatLng? mapCenter;
   StreamSubscription<LocationState>? locationStateSubcription;
 
   MapBloc({required this.locationBloc}) : super( const MapState()) {
@@ -22,7 +24,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<OnStopFollowingUserEvent>((event, emit) => emit(state.copyWith(isFollowingUser: false)));
     on<UpdateUserPolylineEvent>(_OnPolylineNewPoint);
     on<OnToggleUserRoute>((event, emit) => emit(state.copyWith(ShowMyRoute: !state.ShowMyRoute)));
-
+    on<DisplayPolylineEvent>((event, emit) => emit(state.copyWith(polylines: event.polylines)));
     locationBloc.stream.listen((locationState) {
 
       if(locationState.lastKnowLocation!= null){
@@ -56,11 +58,26 @@ void _OnPolylineNewPoint(UpdateUserPolylineEvent event, Emitter<MapState>emit){
     endCap: Cap.roundCap,
     points: event.userLocations
     );
-    final currentPolyline = Map<String,Polyline>.from(state.polyline);
+    final currentPolyline = Map<String,Polyline>.from(state.polylines);
     currentPolyline['myRoute'] = myRoute;
 
-    emit (state.copyWith(polyline: currentPolyline));
+    emit (state.copyWith(polylines: currentPolyline));
 }
+
+Future drawRoutePolyline(RouteDestination destination) async{
+  final myRoute = Polyline(
+    polylineId: const PolylineId('route'),
+      color: Colors.black,
+      width: 5,
+      points: destination.points,
+      startCap: Cap.roundCap,
+      endCap: Cap.roundCap,
+    );
+    final currentPolylines = Map<String, Polyline>.from(state.polylines);
+    currentPolylines['route'] = myRoute;
+    add(DisplayPolylineEvent(currentPolylines));
+}
+
 
   void moveCamera( LatLng newLocation){
     final cameraUpdate = CameraUpdate.newLatLng(newLocation);

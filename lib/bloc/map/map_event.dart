@@ -22,5 +22,10 @@ class UpdateUserPolylineEvent extends MapEvent{
   const UpdateUserPolylineEvent(this.userLocations);
 }
 class OnToggleUserRoute extends MapEvent{
-  
+}
+class DisplayPolylineEvent extends MapEvent{
+  final Map<String, Polyline> polylines;
+
+  const DisplayPolylineEvent(this.polylines);
+
 }
