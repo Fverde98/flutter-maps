@@ -6,10 +6,12 @@ class MapView extends StatelessWidget {
 
   final LatLng initialLocation;
   final Set<Polyline> polyline;
+  final Set<Marker> markers;
   const MapView({
     super.key,
      required this.initialLocation, 
-     required this.polyline});
+     required this.polyline, 
+     required this.markers});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,7 @@ class MapView extends StatelessWidget {
           zoomControlsEnabled: false,
           myLocationEnabled: true,
           polylines: polyline,
-       
+          markers: markers,
           onMapCreated: (controller) => mapBloc.add(OnMapInitialzedEvent(controller)),
           onCameraMove: (position) => mapBloc.mapCenter=position.target
           ),

@@ -21,6 +21,9 @@ TrafficService trafficService;
   }
    Future<RouteDestination> getCoorsStartToEnd(LatLng start, LatLng end) async{
     final trafficReponse = await trafficService.getCoorsStartToEnd(start, end);
+
+    final endPlace = await trafficService.getInformationByCoors(end);
+
     final distance = trafficReponse.routes[0].distance;
     final duration = trafficReponse.routes[0].duration;
     final geometry = trafficReponse.routes[0].geometry;
@@ -32,6 +35,7 @@ TrafficService trafficService;
       points: latLngList ,
        duration: duration,
       distance: distance,
+      endPlace: endPlace
     );
    }
 
